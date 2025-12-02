@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Floripa Check-in - Explore Florianópolis</title>
+  <title>BRASGOBR - Floripa Check-in</title>
   <meta name="description" content="Explore os melhores lugares de Florianópolis e ganhe prêmios fazendo check-in!">
   <style>
     body {
@@ -33,6 +33,7 @@
       margin-bottom: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       text-align: center;
+      position: relative;
     }
 
     .header h1 {
@@ -45,6 +46,60 @@
       margin: 0;
       color: #666;
       font-size: 16px;
+    }
+
+    .admin-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+    }
+
+    .logout-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: transparent;
+      color: #999;
+      border: 1px solid #ddd;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.3s;
+      opacity: 0.6;
+    }
+
+    .logout-btn:hover {
+      opacity: 1;
+      color: #666;
+      border-color: #999;
+      background: #f5f5f5;
+    }
+
+    .spy-admin-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0.3;
+      transition: all 0.3s;
+      z-index: 999;
+      padding: 10px;
+    }
+
+    .spy-admin-btn:hover {
+      opacity: 1;
+      transform: scale(1.2);
     }
 
     .user-info {
@@ -109,6 +164,61 @@
       font-size: 14px;
     }
 
+    .search-box {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .search-box h3 {
+      margin: 0 0 15px 0;
+      color: #333;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-input-container {
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 15px 50px 15px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .gps-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .gps-btn:hover {
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);
+    }
+
     .tabs {
       display: flex;
       gap: 10px;
@@ -133,6 +243,15 @@
     .tab.active {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
+    }
+
+    .tab.admin-tab {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+    }
+
+    .tab.admin-tab.active {
+      background: linear-gradient(135deg, #ee5a6f 0%, #d63031 100%);
     }
 
     .tab:hover {
@@ -190,6 +309,21 @@
       margin-bottom: 15px;
     }
 
+    .location-card .price {
+      display: block;
+      font-size: 24px;
+      font-weight: bold;
+      color: #4caf50;
+      margin: 10px 0;
+    }
+
+    .location-card .duration {
+      display: block;
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 15px;
+    }
+
     .check-in-btn {
       width: 100%;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -216,6 +350,24 @@
 
     .checked-in {
       background: #4caf50 !important;
+    }
+
+    .book-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .book-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
     }
 
     .form-container {
@@ -390,10 +542,10 @@
     .login-options {
       display: flex;
       gap: 15px;
+      flex-direction: column;
     }
 
     .login-options button {
-      flex: 1;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border: none;
@@ -408,6 +560,10 @@
     .login-options button:hover {
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-options .admin-login-btn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
     }
 
     .region-filter {
@@ -457,6 +613,154 @@
       box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
     }
 
+    /* ESTILOS DO PAINEL ADMIN */
+    .admin-panel {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .admin-panel h2 {
+      margin: 0 0 20px 0;
+      color: #ff6b6b;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .users-table th,
+    .users-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .users-table th {
+      background: #f9f9f9;
+      color: #333;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .users-table td {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .users-table tr:hover {
+      background: #f5f5f5;
+    }
+
+    .star-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .star-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+
+    .star-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);
+    }
+
+    .star-btn.remove {
+      background: #ff6b6b;
+    }
+
+    .star-input {
+      width: 80px;
+      padding: 8px;
+      border: 2px solid #e0e0e0;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .apply-btn {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+
+    .apply-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+    }
+
+    .user-type-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .user-type-badge.tourist {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .user-type-badge.sponsor {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .user-type-badge.admin {
+      background: #ffebee;
+      color: #d32f2f;
+    }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .admin-stat-card {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .admin-stat-card .number {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .admin-stat-card .label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
     @media (max-width: 768px) {
       .header h1 {
         font-size: 24px;
@@ -466,6 +770,13 @@
       }
       .stat-card {
         min-width: 100%;
+      }
+      .users-table {
+        font-size: 12px;
+      }
+      .users-table th,
+      .users-table td {
+        padding: 10px 5px;
       }
     }
   </style>
@@ -477,20 +788,26 @@
  <body>
   <div class="app-container">
    <header class="header">
-    <h1>🏖️ Floripa Check-in</h1>
-    <p>Explore Florianópolis e ganhe prêmios!</p>
+    <h1>🏖️ BRASGOBR</h1>
+    <p>Floripa Check-in - Explore Florianópolis e ganhe prêmios!</p>
+    <div id="admin-badge-container"></div>
    </header>
    <main id="app-content"></main>
-  </div>
+  </div><button class="spy-admin-btn" onclick="window.showAdminLogin()" title="Admin">👑</button>
   <script>
     const STORAGE_KEYS = {
       USER: 'floripa_checkin_user',
       CHECKINS: 'floripa_checkin_checkins',
       SPONSORS: 'floripa_checkin_sponsors',
-      LOCATIONS: 'floripa_checkin_locations'
+      LOCATIONS: 'floripa_checkin_locations',
+      ALL_USERS: 'floripa_checkin_all_users'
     };
 
+    // SENHA PADRÃO DO ADMINISTRADOR (você pode alterar)
+    const ADMIN_PASSWORD = '424398';
+
     const defaultLocations = [
+      // Praias Norte (20 locais)
       { id: 1, name: 'Cachoeira do Bom Jesus', category: '🏖️ Norte', description: 'Praia tranquila e familiar' },
       { id: 2, name: 'Canasvieiras', category: '🏖️ Norte', description: 'Águas calmas e infraestrutura completa' },
       { id: 3, name: 'Cacupé', category: '🏖️ Norte', description: 'Vista privilegiada para o continente' },
@@ -498,151 +815,239 @@
       { id: 5, name: 'Ingleses', category: '🏖️ Norte', description: 'Maior praia do norte da ilha' },
       { id: 6, name: 'Jurerê Internacional', category: '🏖️ Norte', description: 'Beach clubs e sofisticação' },
       { id: 7, name: 'Jurerê Tradicional', category: '🏖️ Norte', description: 'Tranquilidade e natureza preservada' },
-      { id: 8, name: 'Lagoinha', category: '🏖️ Norte', description: 'Pequena praia charmosa e acolhedora' },
+      { id: 8, name: 'Lagoinha', category: '🏖��� Norte', description: 'Pequena praia charmosa e acolhedora' },
       { id: 9, name: 'Ponta das Canas', category: '🏖️ Norte', description: 'Autêntica vila de pescadores' },
       { id: 10, name: 'Praia Brava', category: '🏖️ Norte', description: 'Ondas fortes ideais para surfe' },
       { id: 11, name: 'Praia do Forte', category: '🏖️ Norte', description: 'Vista para a histórica fortaleza' },
       { id: 12, name: 'Praia do Santinho', category: '🏖️ Norte', description: 'Famosa por inscrições rupestres' },
       { id: 13, name: 'Sambaqui', category: '🏖️ Norte', description: 'Vilarejo tradicional de pescadores' },
       { id: 14, name: 'Santo Antônio de Lisboa', category: '🏖️ Norte', description: 'Charme açoriano e gastronomia' },
-      { id: 15, name: 'Barra da Lagoa', category: '🏖️ Leste', description: 'Comunidade de pescadores e canal' },
-      { id: 16, name: 'Galheta', category: '🏖️ Leste', description: 'Praia naturista preservada' },
-      { id: 17, name: 'Lagoa da Conceição', category: '🌊 Leste', description: 'Lagoa icônica e vida noturna' },
-      { id: 18, name: 'Joaquina', category: '🏖️ Leste', description: 'Paraíso do surfe com dunas' },
-      { id: 19, name: 'Moçambique', category: '🏖️ Leste', description: 'Praia selvagem com 7km de extensão' },
-      { id: 20, name: 'Praia Mole', category: '🏖️ Leste', description: 'Praia badalada com bom surfe' },
-      { id: 21, name: 'Prainha da Barra da Lagoa', category: '🏖️ Leste', description: 'Pequena enseada protegida' },
-      { id: 22, name: 'Armação', category: '🏖️ Sul', description: 'Vila de pescadores histórica' },
-      { id: 23, name: 'Lagoinha do Leste', category: '🏖️ Sul', description: 'Paraíso selvagem - acesso por trilha' },
-      { id: 24, name: 'Matadeiro', category: '🏖️ Sul', description: 'Praia deserta ideal para surf' },
-      { id: 25, name: 'Morro das Pedras', category: '🏖️ Sul', description: 'Praia frequentada por moradores' },
-      { id: 26, name: 'Naufragados', category: '🏖️ Sul', description: 'Praia isolada com acesso por trilha' },
-      { id: 27, name: 'Pântano do Sul', category: '🏖️ Sul', description: 'Vila de pescadores autêntica' },
-      { id: 28, name: 'Praia do Saquinho', category: '🏖️ Sul', description: 'Pequena praia tranquila' },
-      { id: 29, name: 'Ribeirão da Ilha', category: '🏖️ Sul', description: 'Capital nacional da ostra' },
-      { id: 30, name: 'Solidão', category: '🏖️ Sul', description: 'Praia isolada e preservada' },
-      { id: 31, name: 'Tapera', category: '🏖️ Sul', description: 'Pescadores artesanais tradicionais' },
-      { id: 32, name: 'Praia dos Açores', category: '🏖️ Sul', description: 'Extremo sul da ilha - tranquilidade' },
-      { id: 33, name: 'Ostradamus', category: '🍽️ Restaurante', description: 'Ostras e frutos do mar - Ribeirão da Ilha' },
-      { id: 34, name: 'Box 32', category: '🍽️ Restaurante', description: 'Famoso box no Mercado Público' },
-      { id: 35, name: 'Restaurante Rancho Açoriano', category: '🍽️ Restaurante', description: 'Sequência de camarão tradicional' },
-      { id: 36, name: 'Toca da Garoupa', category: '🍽️ Restaurante', description: 'Frutos do mar na Barra da Lagoa' },
-      { id: 37, name: 'Maricota Culinária Caiçara', category: '🍽️ Restaurante', description: 'Culinária local em Santo Antônio' },
-      { id: 38, name: 'Vila Tarantino', category: '🍽️ Restaurante', description: 'Pizza e massas na Lagoa' },
-      { id: 39, name: 'Restaurante Pirão', category: '🍽️ Restaurante', description: 'Culinária catarinense autêntica' },
-      { id: 40, name: 'O Mercado', category: '🍽️ Restaurante', description: 'Frutos do mar e ambiente descolado' },
-      { id: 41, name: 'Bidú Bar', category: '🍽️ Restaurante', description: 'Petiscos e drinks na Lagoa' },
-      { id: 42, name: 'Restaurante Martin Pescador', category: '🍽️ Restaurante', description: 'Peixes frescos - Santo Antônio' },
-      { id: 43, name: 'Marisqueira Sintra', category: '🍽️ Restaurante', description: 'Sequência de frutos do mar premium' },
-      { id: 44, name: 'Tábua Bar', category: '🍽️ Restaurante', description: 'Petiscos e chope artesanal' },
-      { id: 45, name: 'Recanto do Arante', category: '🍽️ Restaurante', description: 'Sequência de camarão - Pântano do Sul' },
-      { id: 46, name: 'Boteco Lagoa', category: '🍽️ Restaurante', description: 'Boteco tradicional com vista' },
-      { id: 47, name: 'Osteria Della Nonna', category: '🍽️ Restaurante', description: 'Massas artesanais italianas' },
-      { id: 48, name: "McDonald's Beira Mar", category: '🍔 Drive-Thru', description: 'Drive-thru na Beira Mar Norte' },
-      { id: 49, name: "McDonald's Trindade", category: '🍔 Drive-Thru', description: 'Drive-thru próximo à UFSC' },
-      { id: 50, name: "McDonald's Continente", category: '🍔 Drive-Thru', description: 'Drive-thru no continente' },
-      { id: 51, name: "Burger King CentroSul", category: '🍔 Drive-Thru', description: 'Drive-thru Shopping CentroSul' },
-      { id: 52, name: "Burger King Iguatemi", category: '🍔 Fast Food', description: 'Shopping Iguatemi Florianópolis' },
-      { id: 53, name: "Burger King Beiramar", category: '🍔 Fast Food', description: 'Beiramar Shopping' },
-      { id: 54, name: "Bob's Floripa", category: '🍔 Fast Food', description: 'Rede brasileira em shoppings' },
-      { id: 55, name: 'Giraffas', category: '🍔 Fast Food', description: 'Fast food brasileiro' },
-      { id: 56, name: 'Subway Lagoa', category: '🥖 Fast Food', description: 'Sanduíches personalizados' },
-      { id: 57, name: 'Subway Centro', category: '🥖 Fast Food', description: 'Sanduíches no centro' },
-      { id: 58, name: 'KFC Iguatemi', category: '🍗 Fast Food', description: 'Frango frito no Shopping Iguatemi' },
-      { id: 59, name: 'Spoleto', category: '🍝 Fast Food', description: 'Massas na hora em vários pontos' },
-      { id: 60, name: 'China in Box', category: '🥡 Fast Food', description: 'Comida chinesa delivery' },
-      { id: 61, name: 'Pizza Hut', category: '🍕 Fast Food', description: 'Pizzas e massas em shoppings' },
-      { id: 62, name: "Habib's", category: '🥙 Fast Food', description: 'Comida árabe fast food' },
-      { id: 63, name: 'Hamburgueria Nacional', category: '🍔 Hamburgueria', description: 'Burgers artesanais premium' },
-      { id: 64, name: 'Lanchonete Apetit', category: '🍔 Lanchonete', description: 'Lanches tradicionais desde 1960' },
-      { id: 65, name: "Carioca's Bar", category: '🍔 Hamburgueria', description: 'Burgers e petiscos na Lagoa' },
-      { id: 66, name: 'The Bargeman Pub', category: '🍔 Hamburgueria', description: 'Pub com burgers artesanais' },
-      { id: 67, name: 'Madalena Burger & Beer', category: '🍔 Hamburgueria', description: 'Burgers gourmet e cervejas' },
-      { id: 68, name: 'Cachaçaria Água Doce', category: '🍢 Restaurante', description: 'Comida brasileira e cachaças' },
-      { id: 69, name: 'Padaria Buri', category: '☕ Padaria', description: 'Pães artesanais e café da manhã' },
-      { id: 70, name: 'Café Cultura', category: '☕ Cafeteria', description: 'Café especial no centro' },
-      { id: 71, name: 'Brigaderia Brownie do Luiz', category: '🍰 Doceria', description: 'Brigadeiros e brownies artesanais' },
-      { id: 72, name: 'Açaí Frutaria', category: '🍧 Sorveteria', description: 'Açaí e sorvetes na Lagoa' },
-      { id: 73, name: 'Gelateria Forno & Fogão', category: '🍦 Sorveteria', description: 'Sorvetes artesanais italianos' },
-      { id: 74, name: 'Costão do Santinho Resort', category: '🏨 Hotel', description: 'Resort all-inclusive 5 estrelas' },
-      { id: 75, name: 'Jurerê Beach Village', category: '🏨 Hotel', description: 'Resort de luxo em Jurerê' },
-      { id: 76, name: 'Hotel Slaviero', category: '🏨 Hotel', description: 'Hotel executivo no centro' },
-      { id: 77, name: 'IL Campanario Villaggio Resort', category: '🏨 Hotel', description: 'Resort familiar em Jurerê' },
-      { id: 78, name: 'Pousada dos Sonhos', category: '🏨 Pousada', description: 'Pousada charmosa em Jurerê' },
-      { id: 79, name: 'Hotel Ibis Florianópolis', category: '🏨 Hotel', description: 'Hotel econômico no centro' },
-      { id: 80, name: 'Majestic Palace Hotel', category: '🏨 Hotel', description: 'Hotel clássico na Beira Mar' },
-      { id: 81, name: 'Kennedy Executive Hotel', category: '🏨 Hotel', description: 'Hotel executivo moderno' },
-      { id: 82, name: 'Pousada Praia Mole', category: '🏨 Pousada', description: 'Pousada pé na areia' },
-      { id: 83, name: 'Porto da Ilha Hotel', category: '🏨 Hotel', description: 'Hotel boutique na Lagoa' },
-      { id: 84, name: 'Blue Tree Premium', category: '🏨 Hotel', description: 'Hotel de negócios premium' },
-      { id: 85, name: 'Intercity Florianópolis', category: '🏨 Hotel', description: 'Hotel moderno no centro' },
-      { id: 86, name: 'Pousada Caminho do Rei', category: '🏨 Pousada', description: 'Pousada aconchegante' },
-      { id: 87, name: 'Hotel Boutique Quinta das Videiras', category: '🏨 Hotel', description: 'Hotel boutique romântico' },
-      { id: 88, name: 'Pousada Vila Tamarindo', category: '🏨 Pousada', description: 'Pousada na Lagoa da Conceição' },
-      { id: 89, name: 'Mercado Público Municipal', category: '🎭 Turismo', description: 'Mercado histórico desde 1896' },
-      { id: 90, name: 'Ponte Hercílio Luz', category: '🎭 Turismo', description: 'Cartão postal de Floripa' },
-      { id: 91, name: 'Fortaleza de São José da Ponta Grossa', category: '🎭 Turismo', description: 'Fortaleza histórica do séc. XVIII' },
-      { id: 92, name: 'Museu Histórico de Santa Catarina', category: '🎭 Cultura', description: 'Palácio Cruz e Sousa' },
-      { id: 93, name: 'Casa da Alfândega', category: '🎭 Cultura', description: 'Centro cultural e artesanato' },
-      { id: 94, name: 'Catedral Metropolitana', category: '🎭 Turismo', description: 'Igreja histórica no centro' },
-      { id: 95, name: 'Projeto TAMAR', category: '🎭 Turismo', description: 'Conservação de tartarugas marinhas' },
-      { id: 96, name: 'Mirante do Morro da Cruz', category: '🎭 Turismo', description: 'Vista panorâmica 360° da ilha' },
-      { id: 97, name: 'Museu de Arte de Santa Catarina', category: '🎭 Cultura', description: 'MASC - Arte contemporânea' },
-      { id: 98, name: 'Trapiche Municipal', category: '🎭 Turismo', description: 'Píer histórico revitalizado' },
-      { id: 99, name: 'Igreja São Francisco de Paula', category: '🎭 Cultura', description: 'Igreja açoriana histórica' },
-      { id: 100, name: 'Centro Histórico Santo Antônio', category: '🎭 Turismo', description: 'Arquitetura açoriana preservada' },
-      { id: 101, name: 'Shopping Iguatemi Florianópolis', category: '🛍️ Shopping', description: 'Maior shopping da ilha' },
-      { id: 102, name: 'Beiramar Shopping', category: '🛍️ Shopping', description: 'Shopping na Beira Mar Norte' },
-      { id: 103, name: 'Floripa Shopping', category: '🛍️ Shopping', description: 'Shopping no norte da ilha' },
-      { id: 104, name: 'Shopping CentroSul', category: '🛍️ Shopping', description: 'Shopping no sul da ilha' },
-      { id: 105, name: 'Itaguaçu Shopping', category: '🛍️ Shopping', description: 'Shopping de bairro' },
-      { id: 106, name: 'Continente Park Shopping', category: '🛍️ Shopping', description: 'Shopping no continente' },
-      { id: 107, name: 'Via Gastronômica', category: '🛍️ Shopping', description: 'Centro gastronômico premium' },
-      { id: 108, name: 'Lagoa Shopping', category: '🛍️ Shopping', description: 'Centro comercial na Lagoa' },
-      { id: 109, name: 'Parque da Luz', category: '🌳 Parque', description: 'Parque urbano no centro' },
-      { id: 110, name: 'Parque Municipal do Mangue do Itacorubi', category: '🌳 Parque', description: 'Manguezal preservado' },
-      { id: 111, name: 'Trilha Costa da Lagoa', category: '🌳 Natureza', description: 'Trilha pela costa da lagoa' },
-      { id: 112, name: 'Trilha da Lagoinha do Leste', category: '🌳 Natureza', description: 'Trilha para praia selvagem' },
-      { id: 113, name: 'Dunas da Joaquina', category: '🌳 Natureza', description: 'Dunas móveis para sandboard' },
-      { id: 114, name: 'Parque Ecológico do Córrego Grande', category: '🌳 Parque', description: 'Área verde preservada' },
-      { id: 115, name: 'Horto Florestal', category: '🌳 Parque', description: 'Área de preservação ambiental' },
-      { id: 116, name: 'Trilha do Gravatá', category: '🌳 Natureza', description: 'Trilha com cachoeira' },
-      { id: 117, name: 'Parque Natural Municipal das Dunas', category: '🌳 Parque', description: 'Preservação das dunas' },
-      { id: 118, name: 'Lagoa do Peri', category: '🌳 Natureza', description: 'Maior lagoa de água doce da ilha' },
-      { id: 119, name: 'Boteco 100', category: '🍺 Bar', description: 'Bar tradicional na Lagoa' },
-      { id: 120, name: 'Choperia da UFSC', category: '🍺 Bar', description: 'Point universitário tradicional' },
-      { id: 121, name: 'Bar do Arante', category: '🍺 Bar', description: 'Bar de praia clássico' },
-      { id: 122, name: 'John Bull Pub', category: '🍺 Pub', description: 'Pub inglês tradicional' },
-      { id: 123, name: 'Confraria das Ostras', category: '🍺 Bar', description: 'Ostras e drinks na Lagoa' },
-      { id: 124, name: 'Cachaçaria Água Doce Bar', category: '🍺 Bar', description: 'Cachaças artesanais' },
-      { id: 125, name: 'Parakoka Beach Bar', category: '🍺 Bar', description: 'Bar de praia em Canasvieiras' },
-      { id: 126, name: 'P12 Jurere Beach Club', category: '🍺 Balada', description: 'Beach club badalado' },
-      { id: 127, name: 'Cafe de La Musique', category: '🍺 Balada', description: 'Balada sofisticada' },
-      { id: 128, name: 'Sunset Bar Jurerê', category: '🍺 Bar', description: 'Bar com vista para o pôr do sol' },
-      { id: 129, name: 'Santo Boteco', category: '🍺 Bar', description: 'Boteco descolado' },
-      { id: 130, name: 'Ilha Café Bar', category: '🍺 Bar', description: 'Café bar com música ao vivo' },
-      { id: 131, name: 'Smart Fit Trindade', category: '🏋️ Academia', description: 'Academia popular e completa' },
-      { id: 132, name: 'Bodytech Florianópolis', category: '🏋️ Academia', description: 'Academia premium' },
-      { id: 133, name: 'Bluefit Floripa', category: '🏋️ Academia', description: 'Rede de academias acessível' },
-      { id: 134, name: 'CrossFit Floripa', category: '🏋️ Esporte', description: 'Box de CrossFit' },
-      { id: 135, name: 'Escola de Surf Joaquina', category: '🏋️ Esporte', description: 'Aulas de surf na Joaquina' },
-      { id: 136, name: 'Stand Up Lagoa', category: '🏋️ Esporte', description: 'Stand up paddle na Lagoa' },
-      { id: 137, name: 'Voepass Tennis Center', category: '🏋️ Esporte', description: 'Quadras de tênis' },
-      { id: 138, name: 'Bike Tour Floripa', category: '🏋️ Esporte', description: 'Passeios de bike pela ilha' },
-      { id: 139, name: 'Angeloni Beira Mar', category: '🏪 Mercado', description: 'Supermercado completo' },
-      { id: 140, name: 'Bistek Supermercados', category: '🏪 Mercado', description: 'Rede local de supermercados' },
-      { id: 141, name: 'Imperatriz Supermercados', category: '🏪 Mercado', description: 'Supermercado de bairro' },
-      { id: 142, name: 'Padaria e Confeitaria Primor', category: '🏪 Padaria', description: 'Padaria tradicional' },
-      { id: 143, name: 'Padaria Central', category: '🏪 Padaria', description: 'Pães e doces no centro' },
-      { id: 144, name: 'Padaria e Pastelaria Real', category: '🏪 Padaria', description: 'Padaria artesanal' },
-      { id: 145, name: 'Big Supermercados', category: '🏪 Mercado', description: 'Supermercado atacadista' },
-      { id: 146, name: 'Comper Hipermercados', category: '🏪 Mercado', description: 'Hipermercado completo' },
-      { id: 147, name: 'Padaria Vitória', category: '🏪 Padaria', description: 'Padaria de bairro tradicional' },
-      { id: 148, name: 'Empório Santa Cruz', category: '🏪 Mercado', description: 'Produtos naturais e orgânicos' }
+      { id: 15, name: 'Praia da Daniela', category: '🏖️ Norte', description: 'Águas calmas ideal para crianças' },
+      { id: 16, name: 'Jurerê Open Shopping', category: '🏖️ Norte', description: 'Shopping e gastronomia em Jurerê' },
+      { id: 17, name: 'Praia dos Ingleses Centro', category: '🏖️ Norte', description: 'Centro comercial dos Ingleses' },
+      { id: 18, name: 'Costão do Santinho', category: '🏖️ Norte', description: 'Resort e belezas naturais' },
+      { id: 19, name: 'Praia do Pontal', category: '🏖️ Norte', description: 'Enseada tranquila' },
+      { id: 20, name: 'Vargem do Bom Jesus', category: '🏖️ Norte', description: 'Comunidade tradicional' },
+
+      // Praias Leste (20 locais)
+      { id: 21, name: 'Barra da Lagoa', category: '🏖️ Leste', description: 'Comunidade de pescadores e canal' },
+      { id: 22, name: 'Galheta', category: '🏖️ Leste', description: 'Praia naturista preservada' },
+      { id: 23, name: 'Lagoa da Conceição', category: '�� Leste', description: 'Lagoa icônica e vida noturna' },
+      { id: 24, name: 'Joaquina', category: '🏖️ Leste', description: 'Paraíso do surfe com dunas' },
+      { id: 25, name: 'Moçambique', category: '🏖️ Leste', description: 'Praia selvagem com 7km de extensão' },
+      { id: 26, name: 'Praia Mole', category: '🏖️ Leste', description: 'Praia badalada com bom surfe' },
+      { id: 27, name: 'Prainha da Barra da Lagoa', category: '🏖️ Leste', description: 'Pequena enseada protegida' },
+      { id: 28, name: 'Praia da Galheta', category: '🏖️ Leste', description: 'Acesso por trilha' },
+      { id: 29, name: 'Dunas da Joaquina', category: '🏖️ Leste', description: 'Dunas para sandboard' },
+      { id: 30, name: 'Centrinho da Lagoa', category: '🌊 Leste', description: 'Coração da Lagoa da Conceição' },
+      { id: 31, name: 'Costa da Lagoa', category: '🌊 Leste', description: 'Acesso por barco ou trilha' },
+      { id: 32, name: 'Canto da Lagoa', category: '🌊 Leste', description: 'Kitesurf e windsurf' },
+      { id: 33, name: 'Praia Mole Acesso Sul', category: '🏖️ Leste', description: 'Lado sul da Praia Mole' },
+      { id: 34, name: 'Moçambique Norte', category: '🏖��� Leste', description: 'Extremo norte da praia' },
+      { id: 35, name: 'Moçambique Sul', category: '🏖️ Leste', description: 'Extremo sul da praia' },
+      { id: 36, name: 'Barra da Lagoa Centro', category: '🏖️ Leste', description: 'Restaurantes e comércio' },
+      { id: 37, name: 'Praia da Joaquina Norte', category: '🏖️ Leste', description: 'Campeonatos de surf' },
+      { id: 38, name: 'Trilha Praia Mole-Galheta', category: '🏖️ Leste', description: 'Trilha panorâmica' },
+      { id: 39, name: 'Lagoa Pequena', category: '🌊 Leste', description: 'Lagoa menor e tranquila' },
+      { id: 40, name: 'Retiro da Lagoa', category: '🌊 Leste', description: 'Área residencial' },
+
+      // Praias Sul (20 locais)
+      { id: 41, name: 'Armação', category: '🏖️ Sul', description: 'Vila de pescadores histórica' },
+      { id: 42, name: 'Lagoinha do Leste', category: '🏖️ Sul', description: 'Paraíso selvagem - acesso por trilha' },
+      { id: 43, name: 'Matadeiro', category: '🏖️ Sul', description: 'Praia deserta ideal para surf' },
+      { id: 44, name: 'Morro das Pedras', category: '🏖️ Sul', description: 'Praia frequentada por moradores' },
+      { id: 45, name: 'Naufragados', category: '🏖️ Sul', description: 'Praia isolada com acesso por trilha' },
+      { id: 46, name: 'Pântano do Sul', category: '🏖️ Sul', description: 'Vila de pescadores autêntica' },
+      { id: 47, name: 'Praia do Saquinho', category: '🏖️ Sul', description: 'Pequena praia tranquila' },
+      { id: 48, name: 'Ribeirão da Ilha', category: '🏖️ Sul', description: 'Capital nacional da ostra' },
+      { id: 49, name: 'Solidão', category: '🏖️ Sul', description: 'Praia isolada e preservada' },
+      { id: 50, name: 'Tapera', category: '🏖️ Sul', description: 'Pescadores artesanais tradicionais' },
+      { id: 51, name: 'Praia dos Açores', category: '🏖️ Sul', description: 'Extremo sul da ilha - tranquilidade' },
+      { id: 52, name: 'Campeche', category: '🏖️ Sul', description: 'Praia extensa e preservada' },
+      { id: 53, name: 'Praia do Campeche Sul', category: '🏖️ Sul', description: 'Lado sul do Campeche' },
+      { id: 54, name: 'Praia da Armação Norte', category: '🏖️ Sul', description: 'Parte norte da Armação' },
+      { id: 55, name: 'Praia da Armação Sul', category: '🏖️ Sul', description: 'Parte sul da Armação' },
+      { id: 56, name: 'Praia da Solidão Acesso', category: '🏖️ Sul', description: 'Acesso à praia da Solidão' },
+      { id: 57, name: 'Caieira da Barra do Sul', category: '🏖️ Sul', description: 'Vila de pescadores' },
+      { id: 58, name: 'Praia de Fora', category: '🏖️ Sul', description: 'Praia isolada' },
+      { id: 59, name: 'Costa de Dentro', category: '🏖️ Sul', description: 'Comunidade tradicional' },
+      { id: 60, name: 'Praia da Base Aérea', category: '🏖️ Sul', description: 'Próxima à base aérea' },
+
+      // Restaurantes (30 locais)
+      { id: 61, name: 'Ostradamus', category: '🍽️ Restaurante', description: 'Ostras e frutos do mar - Ribeirão' },
+      { id: 62, name: 'Box 32', category: '🍽️ Restaurante', description: 'Famoso box no Mercado Público' },
+      { id: 63, name: 'Rancho Açoriano', category: '🍽️ Restaurante', description: 'Sequência de camarão tradicional' },
+      { id: 64, name: 'Toca da Garoupa', category: '🍽️ Restaurante', description: 'Frutos do mar na Barra da Lagoa' },
+      { id: 65, name: 'Restaurante Sabor Ilhéu', category: '🍽️ Restaurante', description: 'Comida típica açoriana' },
+      { id: 66, name: 'Martin Pescador', category: '🍽️ Restaurante', description: 'Peixes frescos na Lagoa' },
+      { id: 67, name: 'Bistro Isadora Duncan', category: '🍽️ Restaurante', description: 'Alta gastronomia na Lagoa' },
+      { id: 68, name: 'Basilicò', category: '🍽️ Restaurante', description: 'Culinária italiana premium' },
+      { id: 69, name: 'Il Siciliano', category: '🍽️ Restaurante', description: 'Autêntica cozinha siciliana' },
+      { id: 70, name: 'Riviera Gastronomia', category: '🍽️ Restaurante', description: 'Vista para a lagoa' },
+      { id: 71, name: 'Restaurante Mar Del Plata', category: '🍽️ Restaurante', description: 'Frutos do mar argentinos' },
+      { id: 72, name: 'Arante', category: '🍽️ Restaurante', description: 'Restaurante sofisticado' },
+      { id: 73, name: 'Vina 63', category: '🍽️ Restaurante', description: 'Vinhos e tapas' },
+      { id: 74, name: 'Rocka Beach Lounge', category: '🍽️ Restaurante', description: 'Beach club Jurerê' },
+      { id: 75, name: 'Il Campanario', category: '🍽️ Restaurante', description: 'Restaurante resort' },
+      { id: 76, name: 'Osteria Della Nonna', category: '🍽️ Restaurante', description: 'Massas artesanais' },
+      { id: 77, name: 'Bar do Arante', category: '�����️ Restaurante', description: 'Pratos executivos' },
+      { id: 78, name: 'Villa Manjericão', category: '🍽️ Restaurante', description: 'Comida italiana caseira' },
+      { id: 79, name: 'Marakuthai', category: '🍽️ Restaurante', description: 'Culinária tailandesa' },
+      { id: 80, name: 'Osteria Del Mare', category: '🍽️ Restaurante', description: 'Frutos do mar italianos' },
+      { id: 81, name: 'Taj Bar', category: '🍽️ Restaurante', description: 'Comida indiana' },
+      { id: 82, name: 'Restaurante Pirão', category: '🍽️ Restaurante', description: 'Culinária regional' },
+      { id: 83, name: 'Fish House', category: '🍽️ Restaurante', description: 'Especialidade em peixes' },
+      { id: 84, name: 'Botafogo', category: '🍽️ Restaurante', description: 'Churrascaria de frutos do mar' },
+      { id: 85, name: 'Café de la Musique', category: '🍽️ Restaurante', description: 'Beach club Jurerê' },
+      { id: 86, name: 'Buddah Lounge', category: '🍽️ Restaurante', description: 'Gastronomia asiática' },
+      { id: 87, name: 'Santo Gusto Cozinha Italiana', category: '🍽️ Restaurante', description: 'Pizza e pasta' },
+      { id: 88, name: 'Rei do Peixe', category: '🍽️ Restaurante', description: 'Tradicional em Santo Antônio' },
+      { id: 89, name: 'Bistro do Museu', category: '🍽️ Restaurante', description: 'Gastronomia e cultura' },
+      { id: 90, name: 'Açores Premium', category: '🍽️ Restaurante', description: 'Culinária açoriana premium' },
+
+      // Fast Food (30 locais)
+      { id: 91, name: 'McDonald\'s Beiramar', category: '🍔 Fast Food', description: 'Fast food americano' },
+      { id: 92, name: 'Burger King Iguatemi', category: '🍔 Fast Food', description: 'Hambúrgueres grelhados' },
+      { id: 93, name: 'Subway Lagoa', category: '🍔 Fast Food', description: 'Sanduíches personalizados' },
+      { id: 94, name: 'Bob\'s Trindade', category: '🍔 Fast Food', description: 'Lanches brasileiros' },
+      { id: 95, name: 'Giraffas Shopping', category: '🍔 Fast Food', description: 'Fast food brasileiro' },
+      { id: 96, name: 'Pizza Hut Centro', category: '🍔 Fast Food', description: 'Pizzas e massas rápidas' },
+      { id: 97, name: 'KFC Floripa', category: '🍔 Fast Food', description: 'Frango frito' },
+      { id: 98, name: 'Domino\'s Pizza Ingleses', category: '��� Fast Food', description: 'Pizza delivery' },
+      { id: 99, name: 'Habib\'s Canasvieiras', category: '🍔 Fast Food', description: 'Comida árabe rápida' },
+      { id: 100, name: 'Spoleto Lagoa', category: '🍔 Fast Food', description: 'Massa na hora' },
+      { id: 101, name: 'China in Box Trindade', category: '🍔 Fast Food', description: 'Comida chinesa delivery' },
+      { id: 102, name: 'Ragazzo Centro', category: '🍔 Fast Food', description: 'Massas fast food' },
+      { id: 103, name: 'Gendai Beiramar', category: '🍔 Fast Food', description: 'Comida japonesa rápida' },
+      { id: 104, name: 'Açaí na Tigela Ingleses', category: '🍔 Fast Food', description: 'Açaí e sucos' },
+      { id: 105, name: 'Mr. Cheney Cookies', category: '🍔 Fast Food', description: 'Cookies e sobremesas' },
+      { id: 106, name: 'Fran\'s Café Iguatemi', category: '🍔 Fast Food', description: 'Café e lanches' },
+      { id: 107, name: 'Rei do Mate Lagoa', category: '🍔 Fast Food', description: 'Lanches naturais' },
+      { id: 108, name: 'Subway Ingleses', category: '🍔 Fast Food', description: 'Sanduíches saudáveis' },
+      { id: 109, name: 'Bob\'s Lagoa', category: '🍔 Fast Food', description: 'Milk-shakes e lanches' },
+      { id: 110, name: 'Pizza Hut Ingleses', category: '🍔 Fast Food', description: 'Pizza express' },
+      { id: 111, name: 'McDonald\'s Lagoa', category: '🍔 Fast Food', description: 'Drive-thru disponível' },
+      { id: 112, name: 'Burger King Lagoa', category: '🍔 Fast Food', description: 'Whopper e combos' },
+      { id: 113, name: 'Habib\'s Centro', category: '��� Fast Food', description: 'Esfihas e pratos árabes' },
+      { id: 114, name: 'Spoleto Ingleses', category: '🍔 Fast Food', description: 'Risotos e massas' },
+      { id: 115, name: 'Cacau Show Beiramar', category: '🍔 Fast Food', description: 'Chocolates e cafeteria' },
+      { id: 116, name: 'Kopenhagen Iguatemi', category: '🍔 Fast Food', description: 'Chocolates premium' },
+      { id: 117, name: 'Docemania', category: '🍔 Fast Food', description: 'Doces e sobremesas' },
+      { id: 118, name: 'Ben & Jerry\'s', category: '🍔 Fast Food', description: 'Sorvetes premium' },
+      { id: 119, name: 'Starbucks Beiramar', category: '🍔 Fast Food', description: 'Café especializado' },
+      { id: 120, name: 'Dunkin\' Donuts', category: '🍔 Fast Food', description: 'Donuts e café' },
+
+      // Hotéis (30 locais)
+      { id: 121, name: 'Costão do Santinho Resort', category: '🏨 Hotel', description: 'Resort all-inclusive luxo' },
+      { id: 122, name: 'IL Campanario Villaggio Resort', category: '🏨 Hotel', description: 'Resort com spa' },
+      { id: 123, name: 'Jurerê Beach Village', category: '🏨 Hotel', description: 'Hotel boutique em Jurerê' },
+      { id: 124, name: 'Ponta dos Ganchos Resort', category: '🏨 Hotel', description: 'Resort exclusivo' },
+      { id: 125, name: 'Majestic Palace Hotel', category: '🏨 Hotel', description: 'Hotel 5 estrelas centro' },
+      { id: 126, name: 'Casa Açoriana', category: '🏨 Hotel', description: 'Pousada charmosa Lagoa' },
+      { id: 127, name: 'Pousada Dos Ch��s', category: '🏨 Hotel', description: 'Vista para a Lagoa' },
+      { id: 128, name: 'Hotel Ibis Budget', category: '🏨 Hotel', description: 'Hotel econômico centro' },
+      { id: 129, name: 'Blue Tree Premium', category: '🏨 Hotel', description: 'Hotel executivo' },
+      { id: 130, name: 'Mercure Florianópolis', category: '🏨 Hotel', description: 'Hotel 4 estrelas' },
+      { id: 131, name: 'Kennedy Executive', category: '🏨 Hotel', description: 'Apart-hotel centro' },
+      { id: 132, name: 'Slaviero Executive', category: '🏨 Hotel', description: 'Hotel executivo moderno' },
+      { id: 133, name: 'Ingleses Praia Hotel', category: '🏨 Hotel', description: 'Frente para o mar' },
+      { id: 134, name: 'Villa Tagle Hotel Boutique', category: '🏨 Hotel', description: 'Charme e exclusividade' },
+      { id: 135, name: 'Quinta das Videiras', category: '�� Hotel', description: 'Resort rural' },
+      { id: 136, name: 'Pousada Caminho do Rei', category: '������ Hotel', description: 'Vista panorâmica' },
+      { id: 137, name: 'Hotel Porto Sol Quality', category: '🏨 Hotel', description: 'Hotel tradicional' },
+      { id: 138, name: 'Varandas ao Mar', category: '🏨 Hotel', description: 'Hotel pé na areia' },
+      { id: 139, name: 'Veleiros Mar Hotel', category: '🏨 Hotel', description: 'Vista para a lagoa' },
+      { id: 140, name: 'Cris Hotel', category: '🏨 Hotel', description: 'Hotel familiar Canasvieiras' },
+      { id: 141, name: 'Pousada Vila Tamarindo', category: '🏨 Hotel', description: 'Conforto e natureza' },
+      { id: 142, name: 'Hotel Geranius', category: '🏨 Hotel', description: 'Hotel aconchegante' },
+      { id: 143, name: 'Intercity Florianópolis', category: '🏨 Hotel', description: 'Hotel moderno centro' },
+      { id: 144, name: 'Ibis Styles Floripa', category: '🏨 Hotel', description: 'Design contemporâneo' },
+      { id: 145, name: 'Oscar Hotel Executive', category: '🏨 Hotel', description: 'Hotel executivo luxo' },
+      { id: 146, name: 'Pousada Jardim das Margaridas', category: '🏨 Hotel', description: 'Aconchego familiar' },
+      { id: 147, name: 'Costa Norte Ingleses', category: '�� Hotel', description: 'Hotel resort' },
+      { id: 148, name: 'Slaviero Conceptual', category: '🏨 Hotel', description: 'Design moderno' },
+      { id: 149, name: 'Faial Prime Su��tes', category: '🏨 Hotel', description: 'Su��tes confortáveis' },
+      { id: 150, name: 'Castelmar Hotel', category: '🏨 Hotel', description: 'Tradição e conforto' }
+    ];
+
+    const tours = [
+      // Passeios de Barco e Ilhas
+      { id: 101, name: 'Passeio de Barco - Ilha do Campeche', description: 'Explore uma das praias mais bonitas do Brasil com águas cristalinas e sítio arqueológico', price: 'R$ 180', duration: '6 horas' },
+      { id: 102, name: 'Tour Ilha Anhatomirim', description: 'Visite a histórica Fortaleza de Santa Cruz com guia bil��ngue', price: 'R$ 120', duration: '4 horas' },
+      { id: 103, name: 'Passeio de Escuna Norte da Ilha', description: 'Navegue pela costa norte com paradas em Canasvieiras, Jurerê e Daniela', price: 'R$ 150', duration: '5 horas' },
+      { id: 104, name: 'Tour Ilha do Arvoredo', description: 'Mergulho e snorkeling na reserva biológica marinha mais famosa', price: 'R$ 350', duration: '8 horas' },
+      { id: 105, name: 'Passeio de Lancha Personalizado', description: 'Lancha privativa para até 8 pessoas, você escolhe os destinos', price: 'R$ 1.200', duration: '4 horas' },
+      { id: 106, name: 'Passeio Baía Norte Completo', description: 'Conheça as 4 fortalezas históricas da baía', price: 'R$ 140', duration: '5 horas' },
+      { id: 107, name: 'Ilha do Francês', description: 'Ilha exclusiva com praia paradisíaca e almoço incluído', price: 'R$ 200', duration: '6 horas' },
+      
+      // Lagoa da Conceição e Barra da Lagoa
+      { id: 108, name: 'Passeio de Barco Lagoa da Conceição', description: 'Navegue pela lagoa com paradas em Costa da Lagoa e Canto da Lagoa', price: 'R$ 100', duration: '3 horas' },
+      { id: 109, name: 'Stand Up Paddle na Lagoa', description: 'Aula e passeio de SUP nas águas calmas da Lagoa da Conceição', price: 'R$ 80', duration: '2 horas' },
+      { id: 110, name: 'Caiaque Costa da Lagoa', description: 'Reme até a Costa da Lagoa e conheça restaurantes tradicionais', price: 'R$ 90', duration: '4 horas' },
+      { id: 111, name: 'Kitesurf - Aula Iniciante', description: 'Primeira aula de kitesurf com instrutor na Lagoa', price: 'R$ 250', duration: '2 horas' },
+      { id: 112, name: 'Windsurf na Lagoa', description: 'Aula de windsurf para iniciantes ou intermediários', price: 'R$ 180', duration: '2 horas' },
+      
+      // Trilhas e Ecoturismo
+      { id: 113, name: 'Trilha Lagoinha do Leste', description: 'Trilha moderada até praia selvagem com paisagens incríveis', price: 'R$ 90', duration: '5 horas' },
+      { id: 114, name: 'Trilha Naufragados', description: 'Acesso à praia mais isolada do sul com guia especializado', price: 'R$ 95', duration: '6 horas' },
+      { id: 115, name: 'Trilha Morro da Lagoa', description: 'Suba o morro e veja o pôr do sol mais famoso de Floripa', price: 'R$ 70', duration: '3 horas' },
+      { id: 116, name: 'Trilha Praia Mole - Galheta', description: 'Trilha leve pela costeira com mirantes fotográficos', price: 'R$ 60', duration: '2 horas' },
+      { id: 117, name: 'Trilha da Gurita', description: 'Trilha para mirante natural no sul da ilha', price: 'R$ 75', duration: '3 horas' },
+      { id: 118, name: 'Rapel Cachoeira do Bom Jesus', description: 'Rapel em cachoeira com instrutores certificados', price: 'R$ 160', duration: '3 horas' },
+      { id: 119, name: 'Canionismo Ratones', description: 'Aventura completa com rapel, tirolesa e cachoeiras', price: 'R$ 220', duration: '5 horas' },
+      
+      // Passeios às Praias
+      { id: 120, name: 'Tour Praias do Norte', description: 'Conheça Canasvieiras, Jurerê, Daniela e Forte em van climatizada', price: 'R$ 110', duration: '6 horas' },
+      { id: 121, name: 'Tour Praias do Leste', description: 'Visite Moçambique, Barra da Lagoa, Joaquina e Mole', price: 'R$ 120', duration: '6 horas' },
+      { id: 122, name: 'Tour Praias do Sul', description: 'Descubra Campeche, Armação, Matadeiro e Pântano do Sul', price: 'R$ 130', duration: '7 horas' },
+      { id: 123, name: 'Passeio Praias Selvagens', description: 'Acesso às praias desertas: Solidão, Naufragados e Lagoinha do Leste', price: 'R$ 150', duration: '8 horas' },
+      { id: 124, name: 'Jurerê Beach Club Day Use', description: 'Dia completo em beach club com estrutura premium', price: 'R$ 200', duration: '8 horas' },
+      
+      // Esportes e Aventura
+      { id: 125, name: 'Voo de Parapente Praia Mole', description: 'Voo duplo com instrutor, veja Floripa do céu', price: 'R$ 280', duration: '1 hora' },
+      { id: 126, name: 'Aula de Surf Praia Mole', description: 'Aula de surf com prancha e roupa inclusa', price: 'R$ 120', duration: '2 horas' },
+      { id: 127, name: 'Sandboard Dunas da Joaquina', description: 'Desça as dunas de sandboard com equipamento incluído', price: 'R$ 80', duration: '2 horas' },
+      { id: 128, name: 'Jet Ski Tour Canasvieiras', description: 'Pilote jet ski pela costa norte com guia', price: 'R$ 300', duration: '1 hora' },
+      { id: 129, name: 'Banana Boat Jurerê', description: 'Diversão garantida no banana boat para toda família', price: 'R$ 60', duration: '15 minutos' },
+      { id: 130, name: 'Parasail em Canasvieiras', description: 'Voe sobre o mar preso a um paraquedas puxado por lancha', price: 'R$ 180', duration: '30 minutos' },
+      
+      // Cultura e História
+      { id: 131, name: 'City Tour Histórico', description: 'Centro histórico, Mercado Público, Ponte Hercílio Luz e cultura açoriana', price: 'R$ 85', duration: '4 horas' },
+      { id: 132, name: 'Tour Gastronômico Ribeirão da Ilha', description: 'Conheça a capital da ostra com degustação incluída', price: 'R$ 140', duration: '4 horas' },
+      { id: 133, name: 'Santo Antônio de Lisboa Cultural', description: 'Vila açoriana com igrejas históricas e artesanato', price: 'R$ 95', duration: '3 horas' },
+      { id: 134, name: 'Rota da Tainha', description: 'Conheça a pesca artesanal da tainha em comunidades tradicionais', price: 'R$ 110', duration: '4 horas' },
+      { id: 135, name: 'Tour Arquitetônico', description: 'Arquitetura colonial e contemporânea com arquiteto guia', price: 'R$ 130', duration: '3 horas' },
+      
+      // Passeios Noturnos e Especiais
+      { id: 136, name: 'Sunset na Lagoa da Conceição', description: 'Passeio de barco para ver o pôr do sol na lagoa', price: 'R$ 85', duration: '2 horas' },
+      { id: 137, name: 'Noite em Jurerê Internacional', description: 'Transfer e entrada em beach clubs famosos', price: 'R$ 150', duration: '6 horas' },
+      { id: 138, name: 'Passeio Fotográfico', description: 'Tour pelos melhores pontos fotográficos com fotógrafo profissional', price: 'R$ 180', duration: '4 horas' },
+      { id: 139, name: 'Observação de Baleias', description: 'Tour para avistar baleias francas (julho a novembro)', price: 'R$ 250', duration: '4 horas' },
+      { id: 140, name: 'Pesca Oceânica', description: 'Pescaria em alto mar com equipamento completo', price: 'R$ 400', duration: '6 horas' },
+      
+      // Passeios Românticos
+      { id: 141, name: 'Jantar Romântico no Barco', description: 'Jantar a bordo ao pôr do sol para casais', price: 'R$ 450', duration: '3 horas' },
+      { id: 142, name: 'Pic-nic na Ilha do Campeche', description: 'Cesta de pic-nic gourmet na praia mais bonita', price: 'R$ 300', duration: '5 horas' },
+      { id: 143, name: 'Helicóptero Tour Romântico', description: 'Voo panorâmico de helicóptero sobre a ilha', price: 'R$ 1.800', duration: '30 minutos' },
+      
+      // Passeios para Famílias
+      { id: 144, name: 'Acqua Mundo - Aquário', description: 'Ingresso + transporte para o maior aquário da América Latina', price: 'R$ 120', duration: '3 horas' },
+      { id: 145, name: 'Projeto Tamar', description: 'Conheça as tartarugas marinhas na Barra da Lagoa', price: 'R$ 50', duration: '2 horas' },
+      { id: 146, name: 'Parque da Luz', description: 'Parque tecnológico interativo para toda família', price: 'R$ 40', duration: '2 horas' },
+      { id: 147, name: 'Show das Águas', description: 'Espetáculo de águas dançantes em Jurerê', price: 'R$ 60', duration: '1 hora' },
+      { id: 148, name: 'Passeio de Charrete Santo Antônio', description: 'Passeio tradicional de charrete pela vila histórica', price: 'R$ 70', duration: '1 hora' },
+      
+      // Day Trips e Passeios Longos
+      { id: 149, name: 'Beto Carrero World', description: 'Transfer + ingresso para o maior parque temático da AL', price: 'R$ 280', duration: '12 horas' },
+      { id: 150, name: 'Guarda do Embaú', description: 'Visite a vila de surfistas e faça passeio de barco no rio', price: 'R$ 150', duration: '8 horas' },
+      { id: 151, name: 'Balneário Camboriú e Cristo Luz', description: 'Conheça a cidade vizinha e o monumento mais alto do Brasil', price: 'R$ 140', duration: '8 horas' },
+      { id: 152, name: 'Vinícola Tour em São Joaquim', description: 'Degustação de vinhos nas montanhas catarinenses', price: 'R$ 320', duration: '10 horas' },
+      { id: 153, name: 'Rota Enxaimel Pomerode', description: 'Conheça a cidade mais alemã do Brasil com almoço típico', price: 'R$ 200', duration: '10 horas' }
     ];
 
     let currentUser = null;
     let currentFilter = 'all';
+    let searchQuery = '';
 
     function loadFromStorage(key) {
       try {
@@ -669,6 +1074,35 @@
     function saveUser(user) {
       saveToStorage(STORAGE_KEYS.USER, user);
       currentUser = user;
+      
+      // Salvar na lista de todos os usuários
+      const allUsers = getAllUsers();
+      const existingIndex = allUsers.findIndex(u => u.id === user.id);
+      if (existingIndex >= 0) {
+        allUsers[existingIndex] = user;
+      } else {
+        allUsers.push(user);
+      }
+      saveToStorage(STORAGE_KEYS.ALL_USERS, allUsers);
+    }
+
+    function getAllUsers() {
+      return loadFromStorage(STORAGE_KEYS.ALL_USERS) || [];
+    }
+
+    function updateUserInList(userId, updates) {
+      const allUsers = getAllUsers();
+      const userIndex = allUsers.findIndex(u => u.id === userId);
+      if (userIndex >= 0) {
+        allUsers[userIndex] = { ...allUsers[userIndex], ...updates };
+        saveToStorage(STORAGE_KEYS.ALL_USERS, allUsers);
+        
+        // Se for o usuário atual, atualizar também
+        if (currentUser && currentUser.id === userId) {
+          currentUser = allUsers[userIndex];
+          saveToStorage(STORAGE_KEYS.USER, currentUser);
+        }
+      }
     }
 
     function getCheckIns() {
@@ -718,13 +1152,15 @@
       return location;
     }
 
-    function getUserStars() {
-      const checkIns = getCheckIns().filter(c => c.userId === currentUser.id);
+    function getUserStars(userId = null) {
+      const targetId = userId || currentUser.id;
+      const checkIns = getCheckIns().filter(c => c.userId === targetId);
       return checkIns.reduce((sum, c) => sum + c.stars, 0);
     }
 
-    function getUserCheckInsCount() {
-      return getCheckIns().filter(c => c.userId === currentUser.id).length;
+    function getUserCheckInsCount(userId = null) {
+      const targetId = userId || currentUser.id;
+      return getCheckIns().filter(c => c.userId === targetId).length;
     }
 
     function hasCheckedIn(locationId) {
@@ -744,10 +1180,68 @@
     }
 
     function getFilteredLocations() {
-      const locations = getLocations();
-      if (currentFilter === 'all') return locations;
-      return locations.filter(loc => loc.category.includes(currentFilter));
+      let locations = getLocations();
+      
+      // Aplicar filtro de categoria
+      if (currentFilter !== 'all') {
+        locations = locations.filter(loc => loc.category.includes(currentFilter));
+      }
+      
+      // Aplicar busca por texto
+      if (searchQuery.trim() !== '') {
+        const query = searchQuery.toLowerCase();
+        locations = locations.filter(loc => 
+          loc.name.toLowerCase().includes(query) || 
+          loc.description.toLowerCase().includes(query) ||
+          loc.category.toLowerCase().includes(query)
+        );
+      }
+      
+      return locations;
     }
+
+    window.handleSearch = function(event) {
+      searchQuery = event.target.value;
+      renderLocationsGrid();
+    };
+
+    window.useGPS = function() {
+      if ("geolocation" in navigator) {
+        showNotification('🔍 Buscando locais próximos...');
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            showNotification(`📍 Localização obtida! Lat: ${position.coords.latitude.toFixed(4)}, Lon: ${position.coords.longitude.toFixed(4)}`);
+            // Aqui você poderia ordenar os locais por proximidade
+          },
+          function(error) {
+            showNotification('❌ Não foi possível obter sua localização. Verifique as permissões.');
+          }
+        );
+      } else {
+        showNotification('❌ Seu navegador não suporta geolocalização.');
+      }
+    };
+
+    function renderAdminBadge() {
+      const badgeContainer = document.getElementById('admin-badge-container');
+      if (currentUser) {
+        let content = '<button class="logout-btn" onclick="window.logout()">�� Sair</button>';
+        if (currentUser.type === 'admin') {
+          content += '<div class="admin-badge">👑 ADMINISTRADOR</div>';
+        }
+        badgeContainer.innerHTML = content;
+      } else {
+        badgeContainer.innerHTML = '';
+      }
+    }
+
+    window.logout = function() {
+      localStorage.removeItem(STORAGE_KEYS.USER);
+      currentUser = null;
+      showNotification('Você saiu com sucesso! 👋');
+      renderLoginView();
+      renderAdminBadge();
+    };
 
     function renderLoginView() {
       const content = document.getElementById('app-content');
@@ -762,6 +1256,50 @@
         </div>
       `;
     }
+
+    window.showAdminLogin = function() {
+      const content = document.getElementById('app-content');
+      content.innerHTML = `
+        <div class="form-container">
+          <h2 style="color: #ff6b6b;">👑 Login do Administrador</h2>
+          <form id="admin-form" onsubmit="window.loginAdmin(event)">
+            <div class="form-group">
+              <label for="admin-password">Senha do Administrador</label>
+              <input type="password" id="admin-password" placeholder="Digite a senha" required>
+            </div>
+            <button type="submit" class="submit-btn" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);">
+              Entrar como Admin 👑
+            </button>
+            <button type="button" class="submit-btn" style="background: #999; margin-top: 10px;" onclick="renderLoginView()">
+              Voltar
+            </button>
+          </form>
+          <p style="text-align: center; margin-top: 15px; color: #999; font-size: 12px;">
+            Senha padrão: 424398
+          </p>
+        </div>
+      `;
+    };
+
+    window.loginAdmin = function(event) {
+      event.preventDefault();
+      const password = document.getElementById('admin-password').value;
+      
+      if (password === ADMIN_PASSWORD) {
+        const admin = {
+          id: 'admin-' + Date.now(),
+          type: 'admin',
+          name: 'Administrador',
+          email: 'admin@floripa-checkin.com',
+          registeredAt: new Date().toISOString()
+        };
+        saveUser(admin);
+        showNotification('Login de administrador bem-sucedido! 👑');
+        renderMainView();
+      } else {
+        showNotification('Senha incorreta! ❌');
+      }
+    };
 
     window.showUserRegister = function() {
       const content = document.getElementById('app-content');
@@ -819,7 +1357,7 @@
       const content = document.getElementById('app-content');
       content.innerHTML = `
         <div class="form-container">
-          <h2>➕ Adicionar Novo Local</h2>
+          <h2>�� Adicionar Novo Local</h2>
           <form id="location-form" onsubmit="window.addNewLocation(event)">
             <div class="form-group">
               <label for="location-name">Nome do Local</label>
@@ -830,32 +1368,18 @@
               <select id="location-category" required>
                 <option value="">Selecione uma categoria</option>
                 <option value="🏖️ Norte">🏖️ Praia Norte</option>
-                <option value="🏖️ Leste">🏖️ Praia Leste</option>
+                <option value="��️ Leste">🏖️ Praia Leste</option>
                 <option value="🏖️ Sul">🏖️ Praia Sul</option>
                 <option value="🍽️ Restaurante">🍽️ Restaurante</option>
                 <option value="🍔 Fast Food">🍔 Fast Food</option>
-                <option value="🍔 Drive-Thru">🍔 Drive-Thru</option>
-                <option value="🍔 Hamburgueria">🍔 Hamburgueria</option>
-                <option value="☕ Cafeteria">☕ Cafeteria</option>
                 <option value="🏨 Hotel">🏨 Hotel</option>
-                <option value="🏨 Pousada">🏨 Pousada</option>
-                <option value="🎭 Turismo">🎭 Turismo</option>
-                <option value="🎭 Cultura">🎭 Cultura</option>
-                <option value="🛍️ Shopping">🛍️ Shopping</option>
-                <option value="🌳 Parque">🌳 Parque</option>
-                <option value="🌳 Natureza">🌳 Natureza</option>
-                <option value="🍺 Bar">🍺 Bar</option>
-                <option value="🏋️ Academia">🏋️ Academia</option>
-                <option value="🏋️ Esporte">🏋️ Esporte</option>
-                <option value="🏪 Mercado">🏪 Mercado</option>
-                <option value="🏪 Padaria">🏪 Padaria</option>
               </select>
             </div>
             <div class="form-group">
               <label for="location-description">Descrição</label>
               <textarea id="location-description" placeholder="Descreva o local..." required></textarea>
             </div>
-            <button type="submit" class="submit-btn">Adicionar Local 📍</button>
+            <button type="submit" class="submit-btn">Adicionar Local ✅</button>
             <button type="button" class="submit-btn" style="background: #999; margin-top: 10px;" onclick="window.renderMainView()">Cancelar</button>
           </form>
         </div>
@@ -930,6 +1454,11 @@
       const grid = document.getElementById('locations-grid');
       const filtered = getFilteredLocations();
       
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">Nenhum local encontrado. 🔍</p>';
+        return;
+      }
+      
       grid.innerHTML = filtered.map(loc => `
         <div class="location-card">
           <h3>${loc.name}</h3>
@@ -945,7 +1474,282 @@
       `).join('');
     }
 
+    function renderToursGrid() {
+      const grid = document.getElementById('tours-grid');
+      
+      grid.innerHTML = tours.map(tour => `
+        <div class="location-card">
+          <h3>${tour.name}</h3>
+          <p>${tour.description}</p>
+          <span class="price">${tour.price}</span>
+          <span class="duration">⏱️ ${tour.duration}</span>
+          <button class="book-btn" onclick="window.bookTour(${tour.id})">
+            📱 Reservar Passeio
+          </button>
+        </div>
+      `).join('');
+    }
+
+    window.bookTour = function(tourId) {
+      const tour = tours.find(t => t.id === tourId);
+      const phoneNumber = '48999907298';
+      const message = `Olá! Gostaria de reservar o passeio: ${tour.name}\n\nDescrição: ${tour.description}\nValor: ${tour.price}\nDuração: ${tour.duration}\n\nMeu nome: ${currentUser.name}\nE-mail: ${currentUser.email}`;
+      
+      // Criar backdrop
+      const backdrop = document.createElement('div');
+      backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9998; backdrop-filter: blur(5px);';
+      backdrop.onclick = function() {
+        backdrop.remove();
+        modal.remove();
+      };
+      
+      // Criar modal
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); z-index: 9999; text-align: center; max-width: 450px; width: 90%;';
+      
+      modal.innerHTML = `
+        <div style="font-size: 60px; margin-bottom: 20px;">📱</div>
+        <h3 style="margin: 0 0 15px 0; color: #333; font-size: 22px;">Entre em Contato</h3>
+        <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6; font-size: 14px;">Entre em contato pelo WhatsApp para confirmar sua reserva!</p>
+        
+        <div style="background: #f5f5f5; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+          <p style="margin: 0 0 12px 0; color: #333; font-weight: bold; font-size: 16px;">📞 Número do WhatsApp:</p>
+          <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #25D366; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+            <span style="font-size: 20px; font-weight: bold; color: #25D366; letter-spacing: 1px;">(48) 99990-7298</span>
+            <button id="copy-phone-btn" style="background: #25D366; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; white-space: nowrap;">📋 Copiar</button>
+          </div>
+          <p style="margin: 12px 0 0 0; color: #999; font-size: 12px;">Clique em "Copiar" e cole no WhatsApp</p>
+        </div>
+
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: left;">
+          <p style="margin: 0 0 8px 0; color: #333; font-weight: bold; font-size: 14px;">💬 Mensagem sugerida:</p>
+          <p style="margin: 0 0 15px 0; color: #666; font-size: 13px; line-height: 1.5; font-style: italic;">${message}</p>
+          <button id="copy-message-btn" style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; width: 100%;">📋 Copiar Mensagem</button>
+        </div>
+        
+        <button id="close-modal-btn" style="background: #f0f0f0; color: #666; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.2s; width: 100%;">Fechar</button>
+      `;
+      
+      document.body.appendChild(backdrop);
+      document.body.appendChild(modal);
+      
+      // Adicionar eventos após o modal estar no DOM
+      const copyPhoneBtn = modal.querySelector('#copy-phone-btn');
+      const copyMessageBtn = modal.querySelector('#copy-message-btn');
+      const closeBtn = modal.querySelector('#close-modal-btn');
+      
+      copyPhoneBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Método alternativo usando textarea temporário
+        const textarea = document.createElement('textarea');
+        textarea.value = phoneNumber;
+        textarea.style.position = 'fixed';
+        textarea.style.top = '0';
+        textarea.style.left = '0';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            showNotification('📱 Número copiado! Cole no WhatsApp');
+            copyPhoneBtn.textContent = '✅ Copiado!';
+            setTimeout(function() { 
+              copyPhoneBtn.textContent = '📋 Copiar'; 
+            }, 2000);
+          } else {
+            showNotification('❌ Não foi possível copiar. Anote: ' + phoneNumber);
+          }
+        } catch (err) {
+          showNotification('❌ Não foi possível copiar. Anote: ' + phoneNumber);
+        }
+        
+        document.body.removeChild(textarea);
+      });
+      
+      copyMessageBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Método alternativo usando textarea temporário
+        const textarea = document.createElement('textarea');
+        textarea.value = message;
+        textarea.style.position = 'fixed';
+        textarea.style.top = '0';
+        textarea.style.left = '0';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            showNotification('💬 Mensagem copiada! Cole no WhatsApp');
+            copyMessageBtn.textContent = '✅ Mensagem Copiada!';
+            setTimeout(function() { 
+              copyMessageBtn.textContent = '📋 Copiar Mensagem'; 
+            }, 2000);
+          } else {
+            showNotification('❌ Não foi possível copiar a mensagem');
+          }
+        } catch (err) {
+          showNotification('❌ Não foi possível copiar a mensagem');
+        }
+        
+        document.body.removeChild(textarea);
+      });
+      
+      closeBtn.addEventListener('click', function() {
+        backdrop.remove();
+        modal.remove();
+      });
+      
+      closeBtn.addEventListener('mouseover', function() { 
+        this.style.background = '#e0e0e0'; 
+      });
+      
+      closeBtn.addEventListener('mouseout', function() { 
+        this.style.background = '#f0f0f0'; 
+      });
+    };
+
+    // FUNÇÕES DO PAINEL ADMIN
+    window.addStars = function(userId) {
+      const checkIns = getCheckIns();
+      checkIns.push({
+        id: Date.now(),
+        locationId: 0,
+        userId: userId,
+        date: new Date().toISOString(),
+        stars: 1
+      });
+      saveToStorage(STORAGE_KEYS.CHECKINS, checkIns);
+      showNotification('⭐ +1 estrela adicionada!');
+      renderAdminPanel();
+    };
+
+    window.removeStars = function(userId) {
+      const checkIns = getCheckIns();
+      const userCheckIns = checkIns.filter(c => c.userId === userId);
+      if (userCheckIns.length > 0) {
+        const lastCheckIn = userCheckIns[userCheckIns.length - 1];
+        const index = checkIns.findIndex(c => c.id === lastCheckIn.id);
+        checkIns.splice(index, 1);
+        saveToStorage(STORAGE_KEYS.CHECKINS, checkIns);
+        showNotification('⭐ -1 estrela removida!');
+        renderAdminPanel();
+      } else {
+        showNotification('Usuário não tem estrelas para remover!');
+      }
+    };
+
+    window.setCustomStars = function(userId) {
+      const input = document.getElementById(`stars-${userId}`);
+      const newStars = parseInt(input.value) || 0;
+      
+      if (newStars < 0) {
+        showNotification('Número de estrelas não pode ser negativo!');
+        return;
+      }
+
+      // Remover todos os check-ins do usuário
+      let checkIns = getCheckIns();
+      checkIns = checkIns.filter(c => c.userId !== userId);
+      
+      // Adicionar novos check-ins para atingir o número desejado
+      for (let i = 0; i < newStars; i++) {
+        checkIns.push({
+          id: Date.now() + i,
+          locationId: 0,
+          userId: userId,
+          date: new Date().toISOString(),
+          stars: 1
+        });
+      }
+      
+      saveToStorage(STORAGE_KEYS.CHECKINS, checkIns);
+      showNotification(`✅ Estrelas definidas para ${newStars}!`);
+      renderAdminPanel();
+    };
+
+    function renderAdminPanel() {
+      const allUsers = getAllUsers().filter(u => u.type !== 'admin');
+      const totalUsers = allUsers.length;
+      const totalTourists = allUsers.filter(u => u.type === 'user').length;
+      const totalSponsors = allUsers.filter(u => u.type === 'sponsor').length;
+      
+      const adminContent = document.getElementById('admin-section');
+      if (!adminContent) return;
+
+      adminContent.innerHTML = `
+        <div class="admin-panel">
+          <h2>👑 Painel de Administração</h2>
+          
+          <div class="admin-stats">
+            <div class="admin-stat-card">
+              <div class="number">${totalUsers}</div>
+              <div class="label">Total de Usuários</div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="number">${totalTourists}</div>
+              <div class="label">Turistas</div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="number">${totalSponsors}</div>
+              <div class="label">Empresas</div>
+            </div>
+          </div>
+
+          <h3 style="margin: 30px 0 15px 0; color: #333;">Gerenciar Estrelas dos Usuários</h3>
+          
+          ${allUsers.length === 0 ? '<p style="text-align: center; color: #999;">Nenhum usuário cadastrado ainda.</p>' : `
+            <div style="overflow-x: auto;">
+              <table class="users-table">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>E-mail</th>
+                    <th>Estrelas</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${allUsers.map(user => `
+                    <tr>
+                      <td><strong>${user.name}</strong></td>
+                      <td>
+                        <span class="user-type-badge ${user.type}">
+                          ${user.type === 'user' ? '👤 Turista' : '🏢 Empresa'}
+                        </span>
+                      </td>
+                      <td>${user.email}</td>
+                      <td><strong style="color: #ffd700; font-size: 18px;">⭐ ${getUserStars(user.id)}</strong></td>
+                      <td>
+                        <div class="star-controls">
+                          <button class="star-btn" onclick="addStars(${user.id})" title="Adicionar 1 estrela">+</button>
+                          <button class="star-btn remove" onclick="removeStars(${user.id})" title="Remover 1 estrela">-</button>
+                          <input type="number" id="stars-${user.id}" class="star-input" min="0" value="${getUserStars(user.id)}" placeholder="0">
+                          <button class="apply-btn" onclick="setCustomStars(${user.id})">Aplicar</button>
+                        </div>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
     function renderMainView() {
+      renderAdminBadge();
       const content = document.getElementById('app-content');
       const locations = getLocations();
       
@@ -955,94 +1759,119 @@
       const rewardsEarned = Math.floor(stars / 100);
       const progressPercent = (stars % 100);
 
+      const isAdmin = currentUser.type === 'admin';
+
       content.innerHTML = `
-        <div class="user-info">
-          <h2>Olá, ${currentUser.name}! 👋</h2>
-          <div class="stats">
-            <div class="stat-card">
-              <div class="number">⭐ ${stars}</div>
-              <div class="label">Estrelas</div>
-            </div>
-            <div class="stat-card">
-              <div class="number">📍 ${checkIns}/${locations.length}</div>
-              <div class="label">Check-ins</div>
-            </div>
-            <div class="stat-card">
-              <div class="number">🎁 ${rewardsEarned}</div>
-              <div class="label">Mimos</div>
-            </div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: ${progressPercent}%">
-              ${progressPercent > 20 ? `${nextReward} estrelas para o próximo mimo!` : ''}
-            </div>
-          </div>
-          <p style="text-align: center; margin: 10px 0 0 0; color: #666;">
-            A cada 100 estrelas, ganhe um mimo!
-          </p>
-        </div>
-
-        <div class="tabs">
-          <button class="tab active" onclick="window.switchTab('locations')">🗺️ Locais</button>
-          <button class="tab" onclick="window.switchTab('rewards')">🎁 Meus Mimos</button>
-          ${currentUser.type === 'sponsor' ? '<button class="tab" onclick="window.switchTab(\'sponsor\')">🏢 Painel Empresa</button>' : ''}
-        </div>
-
-        <div id="locations-section" class="content-section active">
-          <button class="add-location-btn" onclick="window.showAddLocationForm()">➕ Adicionar Novo Local</button>
-          <div class="region-filter">
-            <button class="filter-btn active" onclick="window.setFilter('all')">🌊 Todos (${locations.length})</button>
-            <button class="filter-btn" onclick="window.setFilter('Norte')">🏖️ Norte</button>
-            <button class="filter-btn" onclick="window.setFilter('Leste')">🏖️ Leste</button>
-            <button class="filter-btn" onclick="window.setFilter('Sul')">🏖️ Sul</button>
-            <button class="filter-btn" onclick="window.setFilter('Restaurante')">🍽️ Restaurantes</button>
-            <button class="filter-btn" onclick="window.setFilter('Fast Food')">🍔 Fast Food</button>
-            <button class="filter-btn" onclick="window.setFilter('Drive-Thru')">🚗 Drive-Thru</button>
-            <button class="filter-btn" onclick="window.setFilter('Hotel')">🏨 Hotéis</button>
-            <button class="filter-btn" onclick="window.setFilter('Turismo')">🎭 Turismo</button>
-            <button class="filter-btn" onclick="window.setFilter('Shopping')">🛍️ Shoppings</button>
-            <button class="filter-btn" onclick="window.setFilter('Parque')">🌳 Natureza</button>
-            <button class="filter-btn" onclick="window.setFilter('Bar')">🍺 Bares</button>
-            <button class="filter-btn" onclick="window.setFilter('Academia')">🏋️ Esportes</button>
-            <button class="filter-btn" onclick="window.setFilter('Mercado')">🏪 Mercados</button>
-          </div>
-          <div id="locations-grid" class="locations-grid"></div>
-        </div>
-
-        <div id="rewards-section" class="content-section">
-          <div class="rewards-list">
-            <h2>Seus Mimos Disponíveis</h2>
-            ${rewardsEarned === 0 ? '<p style="text-align: center; color: #666;">Faça check-ins para ganhar mimos! 🎁</p>' : ''}
-            ${getSponsors().slice(0, rewardsEarned).map((sponsor, index) => `
-              <div class="reward-item">
-                <h3>Mimo #${index + 1}</h3>
-                <p>${sponsor.rewardDescription}</p>
-                <p class="sponsor">Patrocinador: ${sponsor.name}</p>
-                <button class="claim-btn" onclick="window.claimReward(${index})">Resgatar Mimo 🎉</button>
+        ${!isAdmin ? `
+          <div class="user-info">
+            <h2>Olá, ${currentUser.name}! 👋</h2>
+            <div class="stats">
+              <div class="stat-card">
+                <div class="number">⭐ ${stars}</div>
+                <div class="label">Estrelas</div>
               </div>
-            `).join('')}
-          </div>
-        </div>
-
-        ${currentUser.type === 'sponsor' ? `
-          <div id="sponsor-section" class="content-section">
-            <div class="rewards-list">
-              <h2>Painel da Empresa</h2>
-              <div class="reward-item">
-                <h3>${currentUser.name}</h3>
-                <p><strong>Mimo oferecido:</strong> ${currentUser.rewardDescription}</p>
-                <p><strong>E-mail:</strong> ${currentUser.email}</p>
-                <p><strong>Telefone:</strong> ${currentUser.phone}</p>
+              <div class="stat-card">
+                <div class="number">📍 ${checkIns}/${locations.length}</div>
+                <div class="label">Check-ins</div>
               </div>
-              <p style="margin-top: 20px; color: #666;">
-                Quando os turistas acumularem 100 estrelas, seu mimo será oferecido a eles! 🎁
-              </p>
+              <div class="stat-card">
+                <div class="number">🎁 ${rewardsEarned}</div>
+                <div class="label">Mimos</div>
+              </div>
             </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${progressPercent}%">
+                ${progressPercent > 20 ? `${nextReward} estrelas para o próximo mimo!` : ''}
+              </div>
+            </div>
+            <p style="text-align: center; margin: 10px 0 0 0; color: #666;">
+              A cada 100 estrelas, ganhe um mimo!
+            </p>
           </div>
         ` : ''}
+
+        <div class="tabs">
+          ${!isAdmin ? '<button class="tab active" onclick="window.switchTab(\'locations\')">🗺️ Locais</button>' : ''}
+          ${!isAdmin ? '<button class="tab" onclick="window.switchTab(\'tours\')">🚢 Passeios</button>' : ''}
+          ${!isAdmin ? '<button class="tab" onclick="window.switchTab(\'rewards\')">🎁 Meus Mimos</button>' : ''}
+          ${currentUser.type === 'sponsor' ? '<button class="tab" onclick="window.switchTab(\'sponsor\')">🏢 Painel Empresa</button>' : ''}
+          ${isAdmin ? '<button class="tab admin-tab active" onclick="window.switchTab(\'admin\')">👑 Painel Admin</button>' : ''}
+        </div>
+
+        ${!isAdmin ? `
+          <div id="locations-section" class="content-section active">
+            <div class="search-box">
+              <h3>🔍 Buscar Locais</h3>
+              <div class="search-input-container">
+                <input type="text" class="search-input" placeholder="Digite o nome do local, categoria ou descrição..." oninput="window.handleSearch(event)">
+                <button class="gps-btn" onclick="window.useGPS()" title="Usar minha localização">📍</button>
+              </div>
+            </div>
+            <button class="add-location-btn" onclick="window.showAddLocationForm()">➕ Adicionar Novo Local</button>
+            <div class="region-filter">
+              <button class="filter-btn active" onclick="window.setFilter('all')">🌊 Todos (${locations.length})</button>
+              <button class="filter-btn" onclick="window.setFilter('Norte')">🏖️ Norte</button>
+              <button class="filter-btn" onclick="window.setFilter('Leste')">����️ Leste</button>
+              <button class="filter-btn" onclick="window.setFilter('Sul')">🏖️ Sul</button>
+              <button class="filter-btn" onclick="window.setFilter('Restaurante')">���️ Restaurantes</button>
+              <button class="filter-btn" onclick="window.setFilter('Fast Food')">🍔 Fast Food</button>
+              <button class="filter-btn" onclick="window.setFilter('Hotel')">🏨 Hotéis</button>
+              <button class="filter-btn" onclick="window.setFilter('Shopping')">🛍️ Shoppings</button>
+              <button class="filter-btn" onclick="window.setFilter('Turismo')">🏛️ Pontos Turísticos</button>
+            </div>
+            <div id="locations-grid" class="locations-grid"></div>
+          </div>
+
+          <div id="tours-section" class="content-section">
+            <div style="background: white; border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+              <h2 style="margin: 0 0 10px 0; color: #333; font-size: 24px;">🚢 Passeios em Florianópolis</h2>
+              <p style="margin: 0; color: #666;">Explore as melhores experiências da ilha!</p>
+            </div>
+            <div id="tours-grid" class="locations-grid"></div>
+          </div>
+
+          <div id="rewards-section" class="content-section">
+            <div class="rewards-list">
+              <h2>Seus Mimos Disponíveis</h2>
+              ${rewardsEarned === 0 ? '<p style="text-align: center; color: #666;">Faça check-ins para ganhar mimos! 🎁</p>' : ''}
+              ${getSponsors().slice(0, rewardsEarned).map((sponsor, index) => `
+                <div class="reward-item">
+                  <h3>Mimo #${index + 1}</h3>
+                  <p>${sponsor.rewardDescription}</p>
+                  <p class="sponsor">Patrocinador: ${sponsor.name}</p>
+                  <button class="claim-btn" onclick="window.claimReward(${index})">Resgatar Mimo 🎉</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          ${currentUser.type === 'sponsor' ? `
+            <div id="sponsor-section" class="content-section">
+              <div class="rewards-list">
+                <h2>Painel da Empresa</h2>
+                <div class="reward-item">
+                  <h3>${currentUser.name}</h3>
+                  <p><strong>Mimo oferecido:</strong> ${currentUser.rewardDescription}</p>
+                  <p><strong>E-mail:</strong> ${currentUser.email}</p>
+                  <p><strong>Telefone:</strong> ${currentUser.phone}</p>
+                </div>
+                <p style="margin-top: 20px; color: #666;">
+                  Quando os turistas acumularem 100 estrelas, seu mimo será oferecido a eles! 🎁
+                </p>
+              </div>
+            </div>
+          ` : ''}
+        ` : ''}
+
+        ${isAdmin ? '<div id="admin-section" class="content-section active"></div>' : ''}
       `;
       
-      renderLocationsGrid();
+      if (!isAdmin) {
+        renderLocationsGrid();
+        renderToursGrid();
+      } else {
+        renderAdminPanel();
+      }
     }
 
     window.renderMainView = renderMainView;
@@ -1053,6 +1882,10 @@
 
       document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
       document.getElementById(`${tab}-section`).classList.add('active');
+
+      if (tab === 'admin') {
+        renderAdminPanel();
+      }
     };
 
     window.doCheckIn = function(locationId) {
@@ -1061,13 +1894,50 @@
         return;
       }
 
-      saveCheckIn(locationId);
-      
-      const locations = getLocations();
-      const location = locations.find(l => l.id === locationId);
-      showNotification(`Check-in em ${location.name}! +2 ⭐`);
-      
-      renderMainView();
+      // Validar localização do usuário
+      if ("geolocation" in navigator) {
+        showNotification('📍 Verificando sua localização...');
+        
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
+            
+            // Florianópolis está entre estas coordenadas aproximadas
+            const floripaMinLat = -27.85;
+            const floripaMaxLat = -27.30;
+            const floripaMinLon = -48.65;
+            const floripaMaxLon = -48.35;
+            
+            // Verificar se está em Florianópolis
+            if (userLat >= floripaMinLat && userLat <= floripaMaxLat &&
+                userLon >= floripaMinLon && userLon <= floripaMaxLon) {
+              
+              // Check-in aprovado!
+              saveCheckIn(locationId);
+              const locations = getLocations();
+              const location = locations.find(l => l.id === locationId);
+              showNotification(`✅ Check-in confirmado em ${location.name}! +2 ⭐`);
+              renderMainView();
+              
+            } else {
+              // Fora de Florianópolis
+              showNotification('❌ Você precisa estar em Florianópolis para fazer check-in! Sua localiza��ão: Lat ' + userLat.toFixed(4) + ', Lon ' + userLon.toFixed(4));
+            }
+          },
+          function(error) {
+            // Erro ao obter localização
+            showNotification('❌ Não foi possível verificar sua localização. Ative o GPS e permita o acesso à localização.');
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+          }
+        );
+      } else {
+        showNotification('❌ Seu navegador não suporta geolocalização. Use um dispositivo com GPS.');
+      }
     };
 
     window.claimReward = function(index) {
@@ -1090,5 +1960,5 @@
       init();
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7ccf8fc6ff50ef',t:'MTc2NDY5OTMzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7d5f75139ce0e7',t:'MTc2NDcwNTIzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
